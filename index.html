@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Les 99 Noms divins</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/css/app.css" />
+</head>
+
+<body>
+  <header class="top">
+    <div class="brand">
+      <div class="title">Les 99 Noms divins</div>
+      <div class="sub">Arabe avec diacritiques, sens en français</div>
+    </div>
+
+    <nav class="tabs" aria-label="Navigation">
+      <button class="tab is-active" data-view="review">Réviser</button>
+      <button class="tab" data-view="daily">Session</button>
+      <button class="tab" data-view="list">Liste</button>
+      <button class="tab" data-view="explore">Explorer</button>
+      <button class="tab" data-view="settings">Réglages</button>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <section class="card">
+      <div class="row">
+        <div class="progress">
+          <div class="progress-label">
+            <span id="progressText">Chargement…</span>
+            <span id="streakText" class="muted"></span>
+          </div>
+          <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="99" aria-valuenow="0">
+            <div class="barFill" id="barFill"></div>
+          </div>
+        </div>
+
+        <div class="tools">
+          <input id="searchInput" class="input" type="search" placeholder="Rechercher en français ou en translittération" />
+          <button id="exportBtn" class="btn">Exporter</button>
+          <button id="resetBtn" class="btn btn-ghost">Réinitialiser</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-review" class="view is-active">
+      <section class="card">
+        <div class="cardHead">
+          <div class="h">Révision dans l’ordre</div>
+          <div class="muted">Flèches, puis boutons Je sais ou À revoir, tout est sauvegardé automatiquement</div>
+        </div>
+
+        <div id="nameCard" class="nameCard" aria-live="polite"></div>
+
+        <div class="actions">
+          <button id="prevBtn" class="btn btn-ghost">Précédent</button>
+          <button id="hardBtn" class="btn">Difficile</button>
+          <button id="againBtn" class="btn">À revoir</button>
+          <button id="goodBtn" class="btn">Je sais</button>
+          <button id="masterBtn" class="btn btn-primary">Appris</button>
+          <button id="nextBtn" class="btn btn-ghost">Suivant</button>
+        </div>
+      </section>
+    </section>
+
+    <section id="view-daily" class="view">
+      <section class="card">
+        <div class="cardHead">
+          <div class="h">Session du jour</div>
+          <div class="muted">Un mélange de Noms à revoir et de nouveaux Noms</div>
+        </div>
+
+        <div class="row">
+          <label class="field">
+            <span class="muted">Taille de la session</span>
+            <input id="dailySize" class="input input-small" type="number" min="5" max="30" value="12" />
+          </label>
+
+          <button id="startDailyBtn" class="btn btn-primary">Démarrer</button>
+        </div>
+
+        <div id="dailyBox" class="dailyBox"></div>
+      </section>
+    </section>
+
+    <section id="view-list" class="view">
+      <section class="card">
+        <div class="cardHead">
+          <div class="h">Liste des 99</div>
+          <div class="muted">Coche ce que tu considères acquis, ajoute une note si tu veux</div>
+        </div>
+
+        <div id="listGrid" class="grid"></div>
+      </section>
+    </section>
+
+    <section id="view-explore" class="view">
+      <section class="card">
+        <div class="cardHead">
+          <div class="h">Explorer</div>
+          <div class="muted">Filtre par tags, puis ouvre une carte</div>
+        </div>
+
+        <div class="row">
+          <select id="tagSelect" class="input">
+            <option value="">Tous les thèmes</option>
+          </select>
+          <button id="clearTagBtn" class="btn btn-ghost">Effacer filtre</button>
+        </div>
+
+        <div id="exploreGrid" class="grid"></div>
+      </section>
+    </section>
+
+    <section id="view-settings" class="view">
+      <section class="card">
+        <div class="cardHead">
+          <div class="h">Réglages</div>
+          <div class="muted">Tu peux garder tout simple, ça marche déjà</div>
+        </div>
+
+        <div class="settings">
+          <label class="switch">
+            <input id="showTranslit" type="checkbox" checked />
+            <span>Afficher translittération</span>
+          </label>
+
+          <label class="switch">
+            <input id="showPhonetic" type="checkbox" checked />
+            <span>Afficher prononciation</span>
+          </label>
+
+          <label class="switch">
+            <input id="showLong" type="checkbox" checked />
+            <span>Afficher sens approfondi</span>
+          </label>
+        </div>
+
+        <div class="muted small">
+          Exporter te donne un fichier JSON de ta progression à copier ailleurs si besoin
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="muted small">Sauvegarde automatique sur cet appareil</div>
+  </footer>
+
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
