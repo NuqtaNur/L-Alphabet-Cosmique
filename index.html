@@ -4,155 +4,1087 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Les 99 Noms divins</title>
+  <style>
+    :root{
+      --bg:#07080c;
+      --panel:#0c0e16;
+      --panel2:#0a0b12;
+      --text:#e9eaf2;
+      --muted:#a7a9bd;
+      --line:#1b1f33;
+      --chip:#141a2e;
+      --btn:#0f1220;
+      --btn2:#0c0e16;
+      --accent:#ffffff;
+      --ok:#7ee787;
+      --warn:#f2cc60;
+      --bad:#ff7b72;
+      --shadow: 0 18px 60px rgba(0,0,0,.55);
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background: radial-gradient(900px 500px at 15% 10%, rgba(255,255,255,.08), transparent 55%),
+                  radial-gradient(900px 500px at 85% 18%, rgba(140,140,255,.08), transparent 60%),
+                  var(--bg);
+      color:var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      letter-spacing:.2px;
+    }
+    .wrap{
+      max-width:1100px;
+      margin:0 auto;
+      padding:26px 18px 60px;
+    }
+    header{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      margin-bottom:18px;
+    }
+    .title{
+      font-size:32px;
+      font-weight:800;
+      line-height:1.1;
+    }
+    .subtitle{
+      color:var(--muted);
+      margin-top:-6px;
+    }
+    .tabs{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      padding:10px 0 6px;
+    }
+    .tab{
+      background:var(--btn);
+      border:1px solid var(--line);
+      color:var(--text);
+      padding:10px 14px;
+      border-radius:999px;
+      cursor:pointer;
+      font-weight:700;
+      box-shadow: 0 8px 30px rgba(0,0,0,.28);
+      user-select:none;
+    }
+    .tab.is-active{
+      background:var(--accent);
+      color:#111;
+      border-color: transparent;
+    }
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow: var(--shadow);
+      padding:18px;
+    }
 
-  <link rel="stylesheet" href="assets/css/app.css" />
+    .topRow{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:14px;
+    }
+    .barWrap{
+      flex:1;
+      min-width:240px;
+    }
+    .barLabel{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      color:var(--muted);
+      font-size:13px;
+      margin-bottom:8px;
+    }
+    .bar{
+      height:10px;
+      border-radius:999px;
+      background: rgba(255,255,255,.08);
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.10);
+    }
+    #barFill{
+      height:100%;
+      width:0%;
+      background: rgba(255,255,255,.85);
+    }
+
+    .tools{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .btn{
+      background:var(--btn2);
+      border:1px solid var(--line);
+      color:var(--text);
+      padding:10px 14px;
+      border-radius:999px;
+      cursor:pointer;
+      font-weight:800;
+    }
+    .btn:active{transform:translateY(1px)}
+    .btn-primary{
+      background:var(--accent);
+      color:#111;
+      border-color: transparent;
+    }
+    .btn-ghost{
+      background:transparent;
+      border:1px dashed rgba(255,255,255,.25);
+      color:var(--text);
+    }
+
+    .view{display:none}
+    .view.is-active{display:block}
+
+    .grid2{
+      display:grid;
+      grid-template-columns: 1.4fr .9fr;
+      gap:14px;
+    }
+    @media (max-width: 900px){
+      .grid2{grid-template-columns:1fr}
+    }
+
+    .nameCard{
+      background: rgba(0,0,0,.22);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:var(--radius);
+      padding:18px;
+    }
+
+    .ar{
+      font-size:56px;
+      line-height:1.15;
+      font-weight:800;
+      letter-spacing:0;
+      margin:6px 0 10px;
+      font-family: "Amiri", "Scheherazade New", "Noto Naskh Arabic", "Noto Kufi Arabic", serif;
+    }
+
+    .meta{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin:10px 0 12px;
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:7px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      font-weight:800;
+      font-size:12px;
+      color:var(--text);
+    }
+
+    .frShort{
+      font-size:18px;
+      font-weight:800;
+      margin:2px 0 10px;
+    }
+    .frLong{
+      color:var(--muted);
+      line-height:1.55;
+      margin:0 0 10px;
+      white-space:pre-wrap;
+    }
+    .muted{color:var(--muted)}
+    .small{font-size:12px}
+
+    .noteBox{
+      margin-top:12px;
+      padding-top:12px;
+      border-top:1px solid rgba(255,255,255,.10);
+      display:grid;
+      gap:10px;
+    }
+    textarea{
+      width:100%;
+      min-height:88px;
+      resize:vertical;
+      padding:12px 12px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.25);
+      color:var(--text);
+      outline:none;
+      font-size:14px;
+      line-height:1.45;
+    }
+    textarea:focus{border-color: rgba(255,255,255,.28)}
+    .switch{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:800;
+    }
+    .switch input{transform: scale(1.1);}
+
+    .actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:14px;
+    }
+
+    .panelTitle{
+      font-weight:900;
+      margin:0 0 10px;
+      font-size:16px;
+    }
+    .row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    input[type="text"], input[type="number"], select{
+      background: rgba(0,0,0,.25);
+      border:1px solid rgba(255,255,255,.12);
+      color:var(--text);
+      padding:10px 12px;
+      border-radius:999px;
+      outline:none;
+      min-width:240px;
+    }
+    input[type="number"]{min-width:120px}
+    select{min-width:220px}
+
+    .tiles{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap:12px;
+    }
+    @media (max-width: 980px){ .tiles{grid-template-columns: repeat(2, minmax(0,1fr));} }
+    @media (max-width: 560px){ .tiles{grid-template-columns: 1fr;} }
+
+    .tile{
+      background: rgba(0,0,0,.22);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:16px;
+      padding:14px;
+      cursor:pointer;
+      transition: transform .08s ease;
+    }
+    .tile:active{transform: translateY(1px)}
+    .tileTop{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:center;
+      margin-bottom:8px;
+      color:var(--muted);
+      font-weight:800;
+      font-size:12px;
+    }
+    .chk{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      cursor:pointer;
+      user-select:none;
+    }
+    .tileAr{
+      font-size:32px;
+      font-weight:900;
+      font-family: "Amiri", "Scheherazade New", "Noto Naskh Arabic", serif;
+      margin:6px 0 8px;
+      line-height:1.2;
+    }
+    .tileFr{
+      font-weight:800;
+      margin-bottom:8px;
+    }
+    .tileMeta{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+
+    .danger{
+      color: var(--bad);
+      font-weight:900;
+    }
+    .ok{
+      color: var(--ok);
+      font-weight:900;
+    }
+  </style>
 </head>
 
 <body>
-  <header class="top">
-    <div class="brand">
+  <div class="wrap">
+    <header>
       <div class="title">Les 99 Noms divins</div>
-      <div class="sub">Arabe avec diacritiques, sens en français</div>
-    </div>
+      <div class="subtitle">Arabe avec diacritiques, sens en français</div>
 
-    <nav class="tabs" aria-label="Navigation">
-      <button class="tab is-active" data-view="review">Réviser</button>
-      <button class="tab" data-view="daily">Session</button>
-      <button class="tab" data-view="list">Liste</button>
-      <button class="tab" data-view="explore">Explorer</button>
-      <button class="tab" data-view="settings">Réglages</button>
-    </nav>
-  </header>
+      <div class="tabs">
+        <button class="tab is-active" data-view="review">Réviser</button>
+        <button class="tab" data-view="session">Session</button>
+        <button class="tab" data-view="list">Liste</button>
+        <button class="tab" data-view="explore">Explorer</button>
+        <button class="tab" data-view="settings">Réglages</button>
+      </div>
+    </header>
 
-  <main class="wrap">
-    <section class="card">
-      <div class="row">
-        <div class="progress">
-          <div class="progress-label">
-            <span id="progressText">Chargement…</span>
-            <span id="streakText" class="muted"></span>
+    <div class="card">
+      <div class="topRow">
+        <div class="barWrap">
+          <div class="barLabel">
+            <div id="progressText">Chargement…</div>
+            <div id="streakText"></div>
           </div>
           <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="99" aria-valuenow="0">
-            <div class="barFill" id="barFill"></div>
+            <div id="barFill"></div>
           </div>
         </div>
 
         <div class="tools">
-          <input id="searchInput" class="input" type="search" placeholder="Rechercher en français ou en translittération" />
-          <button id="exportBtn" class="btn">Exporter</button>
-          <button id="resetBtn" class="btn btn-ghost">Réinitialiser</button>
+          <input id="searchInput" type="text" placeholder="Rechercher en français ou en translittération" />
+          <button class="btn" id="exportBtn">Exporter</button>
+          <button class="btn" id="resetBtn">Réinitialiser</button>
         </div>
       </div>
-    </section>
 
-    <section id="view-review" class="view is-active">
-      <section class="card">
-        <div class="cardHead">
-          <div class="h">Révision dans l’ordre</div>
-          <div class="muted">Flèches, puis boutons Je sais ou À revoir, tout est sauvegardé automatiquement</div>
+      <div id="view-review" class="view is-active">
+        <div class="grid2">
+          <div class="nameCard" id="nameCard"></div>
+
+          <div class="nameCard">
+            <div class="panelTitle">Révision dans l’ordre</div>
+            <div class="muted">Flèches, puis boutons Difficile, À revoir, Je sais, Appris</div>
+
+            <div class="actions" style="margin-top:14px">
+              <button class="btn" id="prevBtn">Précédent</button>
+              <button class="btn" id="hardBtn">Difficile</button>
+              <button class="btn" id="againBtn">À revoir</button>
+              <button class="btn" id="goodBtn">Je sais</button>
+              <button class="btn btn-primary" id="masterBtn">Appris</button>
+              <button class="btn" id="nextBtn">Suivant</button>
+            </div>
+
+            <div style="margin-top:14px" class="muted small">
+              Astuce clavier : flèche gauche et flèche droite
+            </div>
+
+            <div id="loadStatus" style="margin-top:14px"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="view-session" class="view">
+        <div class="nameCard">
+          <div class="panelTitle">Session du jour</div>
+          <div class="row">
+            <div class="muted">Taille</div>
+            <input id="dailySize" type="number" min="5" max="30" value="12" />
+            <button class="btn btn-primary" id="startDailyBtn">Démarrer</button>
+          </div>
         </div>
 
-        <div id="nameCard" class="nameCard" aria-live="polite"></div>
+        <div style="height:12px"></div>
 
-        <div class="actions">
-          <button id="prevBtn" class="btn btn-ghost">Précédent</button>
-          <button id="hardBtn" class="btn">Difficile</button>
-          <button id="againBtn" class="btn">À revoir</button>
-          <button id="goodBtn" class="btn">Je sais</button>
-          <button id="masterBtn" class="btn btn-primary">Appris</button>
-          <button id="nextBtn" class="btn btn-ghost">Suivant</button>
+        <div id="dailyBox"></div>
+      </div>
+
+      <div id="view-list" class="view">
+        <div class="nameCard">
+          <div class="panelTitle">Liste</div>
+          <div class="muted">Clique sur une tuile pour ouvrir le Nom</div>
         </div>
-      </section>
-    </section>
+        <div style="height:12px"></div>
+        <div class="tiles" id="listGrid"></div>
+      </div>
 
-    <section id="view-daily" class="view">
-      <section class="card">
-        <div class="cardHead">
-          <div class="h">Session du jour</div>
-          <div class="muted">Un mélange de Noms à revoir et de nouveaux Noms</div>
+      <div id="view-explore" class="view">
+        <div class="nameCard">
+          <div class="panelTitle">Explorer</div>
+          <div class="row">
+            <select id="tagSelect">
+              <option value="">Tous les thèmes</option>
+            </select>
+            <button class="btn" id="clearTagBtn">Tout afficher</button>
+          </div>
         </div>
+        <div style="height:12px"></div>
+        <div class="tiles" id="exploreGrid"></div>
+      </div>
 
-        <div class="row">
-          <label class="field">
-            <span class="muted">Taille de la session</span>
-            <input id="dailySize" class="input input-small" type="number" min="5" max="30" value="12" />
-          </label>
+      <div id="view-settings" class="view">
+        <div class="nameCard">
+          <div class="panelTitle">Affichage</div>
+          <div class="row">
+            <label class="switch"><input id="showTranslit" type="checkbox" checked /> <span>Translittération</span></label>
+            <label class="switch"><input id="showPhonetic" type="checkbox" checked /> <span>Prononciation</span></label>
+            <label class="switch"><input id="showLong" type="checkbox" checked /> <span>Sens approfondi</span></label>
+          </div>
 
-          <button id="startDailyBtn" class="btn btn-primary">Démarrer</button>
+          <div style="height:10px"></div>
+
+          <div class="muted small">
+            Données : ce fichier contient aussi la liste JSON. Tu peux la remplir tranquillement (ar en arabe avec diacritiques, tout le reste en français).
+          </div>
         </div>
+      </div>
+    </div>
+  </div>
 
-        <div id="dailyBox" class="dailyBox"></div>
-      </section>
-    </section>
+  <script id="namesData" type="application/json">
+[
+  { "id": 1, "ar": "الرَّحْمٰن", "translit": "ar-Rahmān", "phonetic": "ar-rah-MAAN", "frShort": "Le Tout-Miséricordieux", "frLong": "À compléter depuis ton livre, en français.", "tags": ["miséricorde"], "pairs": [2] },
+  { "id": 2, "ar": "الرَّحِيم", "translit": "ar-Rahīm", "phonetic": "ar-ra-HIIM", "frShort": "Le Très-Miséricordieux", "frLong": "À compléter depuis ton livre, en français.", "tags": ["miséricorde"], "pairs": [1] },
 
-    <section id="view-list" class="view">
-      <section class="card">
-        <div class="cardHead">
-          <div class="h">Liste des 99</div>
-          <div class="muted">Coche ce que tu considères acquis, ajoute une note si tu veux</div>
-        </div>
+  { "id": 3, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 4, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 5, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 6, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 7, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 8, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 9, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 10, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
 
-        <div id="listGrid" class="grid"></div>
-      </section>
-    </section>
+  { "id": 11, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 12, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 13, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 14, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 15, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 16, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 17, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 18, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 19, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 20, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
 
-    <section id="view-explore" class="view">
-      <section class="card">
-        <div class="cardHead">
-          <div class="h">Explorer</div>
-          <div class="muted">Filtre par tags, puis ouvre une carte</div>
-        </div>
+  { "id": 21, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 22, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 23, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 24, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 25, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 26, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 27, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 28, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 29, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 30, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
 
-        <div class="row">
-          <select id="tagSelect" class="input">
-            <option value="">Tous les thèmes</option>
-          </select>
-          <button id="clearTagBtn" class="btn btn-ghost">Effacer filtre</button>
-        </div>
+  { "id": 31, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 32, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 33, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 34, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 35, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 36, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 37, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 38, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 39, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 40, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
 
-        <div id="exploreGrid" class="grid"></div>
-      </section>
-    </section>
+  { "id": 41, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 42, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 43, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 44, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 45, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 46, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 47, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 48, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 49, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 50, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
 
-    <section id="view-settings" class="view">
-      <section class="card">
-        <div class="cardHead">
-          <div class="h">Réglages</div>
-          <div class="muted">Tu peux garder tout simple, ça marche déjà</div>
-        </div>
+  { "id": 51, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 52, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 53, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 54, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 55, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 56, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 57, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 58, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 59, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 60, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
 
-        <div class="settings">
+  { "id": 61, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 62, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 63, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 64, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 65, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 66, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 67, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 68, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 69, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 70, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+
+  { "id": 71, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 72, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 73, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 74, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 75, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 76, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 77, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 78, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 79, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 80, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+
+  { "id": 81, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 82, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 83, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 84, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 85, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 86, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 87, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 88, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 89, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 90, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+
+  { "id": 91, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 92, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 93, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 94, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 95, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 96, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 97, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 98, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] },
+  { "id": 99, "ar": "", "translit": "", "phonetic": "", "frShort": "", "frLong": "", "tags": [], "pairs": [] }
+]
+  </script>
+
+  <script>
+    const $ = (sel, root=document) => root.querySelector(sel);
+    const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+
+    const STORE_KEY = "names99_state_v1";
+
+    const defaultPrefs = {
+      showTranslit: true,
+      showPhonetic: true,
+      showLong: true
+    };
+
+    function nowMs(){ return Date.now(); }
+    function dayKey(ts = Date.now()){
+      const d = new Date(ts);
+      return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+    }
+    function clamp(n, a, b){ return Math.max(a, Math.min(b, n)); }
+
+    function loadState(){
+      try{
+        const raw = localStorage.getItem(STORE_KEY);
+        if(!raw) return null;
+        return JSON.parse(raw);
+      }catch(e){
+        return null;
+      }
+    }
+    function saveState(state){
+      localStorage.setItem(STORE_KEY, JSON.stringify(state));
+    }
+
+    function freshState(names){
+      const items = {};
+      for(const n of names){
+        items[n.id] = { checked:false, notes:"", srs:{level:0,next:0}, lastSeen:0 };
+      }
+      return {
+        version: 1,
+        createdAt: nowMs(),
+        prefs: {...defaultPrefs},
+        cursorId: 1,
+        streak: { lastDay:"", count:0 },
+        items
+      };
+    }
+
+    function updateStreak(state){
+      const today = dayKey();
+      if(state.streak.lastDay === today) return;
+
+      if(!state.streak.lastDay){
+        state.streak.lastDay = today;
+        state.streak.count = 1;
+        return;
+      }
+
+      const last = new Date(state.streak.lastDay + "T00:00:00");
+      const t = new Date(today + "T00:00:00");
+      const diffDays = Math.round((t - last) / 86400000);
+
+      if(diffDays === 1) state.streak.count += 1;
+      else state.streak.count = 1;
+
+      state.streak.lastDay = today;
+    }
+
+    function srsSchedule(level, grade){
+      let nextDays = 0;
+
+      if(grade === "hard") nextDays = 1;
+      if(grade === "again") nextDays = 3;
+      if(grade === "good") nextDays = 7;
+      if(grade === "master") nextDays = 21;
+
+      let newLevel = level;
+      if(grade === "hard") newLevel = clamp(level, 0, 6);
+      if(grade === "again") newLevel = clamp(level + 1, 0, 6);
+      if(grade === "good") newLevel = clamp(level + 2, 0, 6);
+      if(grade === "master") newLevel = 6;
+
+      return { newLevel, nextMs: nowMs() + nextDays * 86400000 };
+    }
+
+    function safeText(s){ return (s ?? "").toString(); }
+
+    function renderNameCard(name, state){
+      const it = state.items[name.id] || {};
+      const prefs = state.prefs || defaultPrefs;
+
+      const ar = safeText(name.ar).trim() || "À remplir";
+      const translit = safeText(name.translit).trim();
+      const phonetic = safeText(name.phonetic).trim();
+      const frShort = safeText(name.frShort).trim() || "Sens court à remplir";
+      const frLong = safeText(name.frLong).trim() || "";
+
+      const tags = Array.isArray(name.tags) ? name.tags : [];
+      const pairs = Array.isArray(name.pairs) ? name.pairs : [];
+
+      const metaParts = [];
+      if(prefs.showTranslit && translit) metaParts.push(`<span class="badge">${translit}</span>`);
+      if(prefs.showPhonetic && phonetic) metaParts.push(`<span class="badge">${phonetic}</span>`);
+      metaParts.push(`<span class="badge">N° ${name.id}</span>`);
+      if(it.checked) metaParts.push(`<span class="badge">Coché</span>`);
+      if(it.srs?.next && it.srs.next > 0){
+        const d = new Date(it.srs.next);
+        metaParts.push(`<span class="badge">Revoir: ${d.toLocaleDateString("fr-FR")}</span>`);
+      }
+
+      const tagHtml = tags.length ? `<div class="tileMeta">${tags.map(t=>`<span class="badge">${safeText(t)}</span>`).join("")}</div>` : "";
+      const pairHtml = pairs.length ? `<div class="tileMeta">${pairs.map(p=>`<span class="badge">Pair ${p}</span>`).join("")}</div>` : "";
+
+      const longHtml = prefs.showLong
+        ? (frLong ? `<div class="frLong">${frLong}</div>` : `<div class="frLong muted">Sens approfondi à compléter</div>`)
+        : "";
+
+      const note = safeText(it.notes);
+
+      return `
+        <div class="ar" dir="rtl">${ar}</div>
+        <div class="meta">${metaParts.join("")}</div>
+        <div class="frShort">${frShort}</div>
+        ${longHtml}
+        ${tagHtml}
+        ${pairHtml}
+        <div class="noteBox">
+          <div class="muted small">Note personnelle</div>
+          <textarea id="noteArea" placeholder="Écris ici ce que tu veux retenir…">${note}</textarea>
           <label class="switch">
-            <input id="showTranslit" type="checkbox" checked />
-            <span>Afficher translittération</span>
-          </label>
-
-          <label class="switch">
-            <input id="showPhonetic" type="checkbox" checked />
-            <span>Afficher prononciation</span>
-          </label>
-
-          <label class="switch">
-            <input id="showLong" type="checkbox" checked />
-            <span>Afficher sens approfondi</span>
+            <input id="checkBox" type="checkbox" ${it.checked ? "checked" : ""} />
+            <span>Marquer comme acquis</span>
           </label>
         </div>
+      `;
+    }
 
-        <div class="muted small">
-          Exporter te donne un fichier JSON de ta progression à copier ailleurs si besoin
-        </div>
-      </section>
-    </section>
-  </main>
+    function updateProgress(names, state){
+      const total = names.length;
+      const checked = names.filter(n => state.items[n.id]?.checked).length;
+      const pct = total ? Math.round((checked / total) * 100) : 0;
 
-  <footer class="foot">
-    <div class="muted small">Sauvegarde automatique sur cet appareil</div>
-  </footer>
+      $("#progressText").textContent = `${checked} / ${total} cochés`;
+      $("#streakText").textContent = state.streak.count ? `Série: ${state.streak.count} jour(s)` : "";
 
-  <script src="assets/js/app.js"></script>
+      $("#barFill").style.width = `${pct}%`;
+      $(".bar").setAttribute("aria-valuenow", String(checked));
+    }
+
+    function setView(view){
+      $$(".tab").forEach(t => t.classList.toggle("is-active", t.dataset.view === view));
+      $$(".view").forEach(v => v.classList.toggle("is-active", v.id === `view-${view}`));
+    }
+
+    function fillTags(names){
+      const set = new Set();
+      for(const n of names){
+        if(Array.isArray(n.tags)){
+          for(const t of n.tags){
+            const x = safeText(t).trim();
+            if(x) set.add(x);
+          }
+        }
+      }
+      const select = $("#tagSelect");
+      const current = select.value;
+      select.innerHTML = `<option value="">Tous les thèmes</option>` + Array.from(set).sort((a,b)=>a.localeCompare(b,"fr"))
+        .map(t => `<option value="${t}">${t}</option>`).join("");
+      select.value = current;
+    }
+
+    function renderListGrid(names, state, targetSel){
+      const box = $(targetSel);
+      box.innerHTML = "";
+
+      for(const n of names){
+        const it = state.items[n.id] || {};
+        const ar = safeText(n.ar).trim() || "À remplir";
+        const fr = safeText(n.frShort).trim() || "Sens à remplir";
+
+        const tile = document.createElement("div");
+        tile.className = "tile";
+        tile.innerHTML = `
+          <div class="tileTop">
+            <div class="id">N° ${n.id}</div>
+            <label class="chk">
+              <input type="checkbox" ${it.checked ? "checked":""} data-id="${n.id}" />
+              <span>Acquis</span>
+            </label>
+          </div>
+          <div class="tileAr" dir="rtl">${ar}</div>
+          <div class="tileFr">${fr}</div>
+          <div class="tileMeta">
+            <span class="badge">Ouvrir</span>
+            ${Array.isArray(n.tags) && n.tags.length ? `<span class="badge">${safeText(n.tags[0])}</span>` : ""}
+          </div>
+        `;
+
+        tile.addEventListener("click", (e) => {
+          const input = e.target?.tagName === "INPUT";
+          if(input) return;
+          STATE.cursorId = n.id;
+          saveState(STATE);
+          showCardById(n.id);
+          setView("review");
+        });
+
+        tile.querySelector("input")?.addEventListener("change", (e) => {
+          const id = Number(e.target.dataset.id);
+          STATE.items[id].checked = !!e.target.checked;
+          saveState(STATE);
+          updateProgress(NAMES, STATE);
+        });
+
+        box.appendChild(tile);
+      }
+    }
+
+    let NAMES = [];
+    let STATE = null;
+
+    function showCardById(id){
+      const name = NAMES.find(n => n.id === id) || NAMES[0];
+      if(!name) return;
+
+      STATE.cursorId = name.id;
+      const card = $("#nameCard");
+      card.innerHTML = renderNameCard(name, STATE);
+
+      const noteArea = $("#noteArea", card);
+      noteArea?.addEventListener("input", () => {
+        STATE.items[name.id].notes = noteArea.value;
+        saveState(STATE);
+      });
+
+      const check = $("#checkBox", card);
+      check?.addEventListener("change", () => {
+        STATE.items[name.id].checked = !!check.checked;
+        saveState(STATE);
+        updateProgress(NAMES, STATE);
+        renderListGrid(filteredNames(), STATE, "#listGrid");
+        renderListGrid(filteredExplore(), STATE, "#exploreGrid");
+      });
+
+      updateProgress(NAMES, STATE);
+    }
+
+    function moveCursor(delta){
+      const idx = NAMES.findIndex(n => n.id === STATE.cursorId);
+      const next = clamp(idx + delta, 0, NAMES.length - 1);
+      showCardById(NAMES[next].id);
+    }
+
+    function gradeCurrent(grade){
+      const id = STATE.cursorId;
+      const it = STATE.items[id];
+      updateStreak(STATE);
+
+      const level = it.srs?.level ?? 0;
+      const sch = srsSchedule(level, grade);
+      it.srs.level = sch.newLevel;
+      it.srs.next = sch.nextMs;
+      it.lastSeen = nowMs();
+
+      if(grade === "master") it.checked = true;
+
+      saveState(STATE);
+      showCardById(id);
+    }
+
+    function dueNames(){
+      const t = nowMs();
+      return NAMES.filter(n => {
+        const it = STATE.items[n.id];
+        const next = it?.srs?.next ?? 0;
+        return next > 0 && next <= t;
+      });
+    }
+
+    function newNames(){
+      const seen = NAMES.filter(n => (STATE.items[n.id]?.lastSeen ?? 0) > 0);
+      if(seen.length === 0) return NAMES;
+      const maxSeenId = Math.max(...seen.map(n=>n.id));
+      return NAMES.filter(n => n.id > maxSeenId);
+    }
+
+    function buildDailySession(size){
+      const due = dueNames();
+      const fresh = newNames();
+
+      const session = [];
+      for(const n of due){
+        if(session.length >= size) break;
+        session.push(n);
+      }
+      for(const n of fresh){
+        if(session.length >= size) break;
+        session.push(n);
+      }
+      return session;
+    }
+
+    function gradeById(id, grade){
+      const it = STATE.items[id];
+      updateStreak(STATE);
+
+      const level = it.srs?.level ?? 0;
+      const sch = srsSchedule(level, grade);
+      it.srs.level = sch.newLevel;
+      it.srs.next = sch.nextMs;
+      it.lastSeen = nowMs();
+
+      if(grade === "master") it.checked = true;
+
+      saveState(STATE);
+      updateProgress(NAMES, STATE);
+    }
+
+    function renderDaily(session){
+      const box = $("#dailyBox");
+      if(session.length === 0){
+        box.innerHTML = `<div class="nameCard"><div class="muted">Aucun Nom planifié. Tu peux continuer dans Réviser.</div></div>`;
+        return;
+      }
+
+      let i = 0;
+      const current = () => session[i];
+
+      const render = () => {
+        const n = current();
+        if(!n){
+          box.innerHTML = `<div class="nameCard"><div class="ok">Session terminée</div></div>`;
+          return;
+        }
+
+        box.innerHTML = `
+          <div class="nameCard">
+            ${renderNameCard(n, STATE)}
+            <div class="actions">
+              <button class="btn" data-g="hard">Difficile</button>
+              <button class="btn" data-g="again">À revoir</button>
+              <button class="btn" data-g="good">Je sais</button>
+              <button class="btn btn-primary" data-g="master">Appris</button>
+              <button class="btn btn-ghost" data-g="skip">Passer</button>
+            </div>
+          </div>
+        `;
+
+        $("#noteArea", box)?.addEventListener("input", (e) => {
+          STATE.items[n.id].notes = e.target.value;
+          saveState(STATE);
+        });
+
+        $("#checkBox", box)?.addEventListener("change", (e) => {
+          STATE.items[n.id].checked = !!e.target.checked;
+          saveState(STATE);
+          updateProgress(NAMES, STATE);
+        });
+
+        $$(".actions button", box).forEach(b => {
+          b.addEventListener("click", () => {
+            const g = b.dataset.g;
+            if(g !== "skip") gradeById(n.id, g);
+            i += 1;
+            render();
+            renderListGrid(filteredNames(), STATE, "#listGrid");
+            renderListGrid(filteredExplore(), STATE, "#exploreGrid");
+          });
+        });
+      };
+
+      render();
+    }
+
+    function filteredNames(){
+      const q = safeText($("#searchInput").value).trim().toLowerCase();
+      if(!q) return NAMES;
+
+      return NAMES.filter(n => {
+        const a = safeText(n.ar).toLowerCase();
+        const t = safeText(n.translit).toLowerCase();
+        const p = safeText(n.phonetic).toLowerCase();
+        const f1 = safeText(n.frShort).toLowerCase();
+        const f2 = safeText(n.frLong).toLowerCase();
+        return a.includes(q) || t.includes(q) || p.includes(q) || f1.includes(q) || f2.includes(q);
+      });
+    }
+
+    function filteredExplore(){
+      const tag = $("#tagSelect").value;
+      const q = safeText($("#searchInput").value).trim().toLowerCase();
+      return NAMES.filter(n => {
+        const okTag = !tag || (Array.isArray(n.tags) && n.tags.includes(tag));
+        if(!okTag) return false;
+        if(!q) return true;
+        const t = safeText(n.translit).toLowerCase();
+        const f1 = safeText(n.frShort).toLowerCase();
+        const f2 = safeText(n.frLong).toLowerCase();
+        return t.includes(q) || f1.includes(q) || f2.includes(q);
+      });
+    }
+
+    function readEmbeddedNames(){
+      const raw = $("#namesData")?.textContent ?? "[]";
+      const data = JSON.parse(raw);
+
+      const cleaned = (Array.isArray(data) ? data : [])
+        .filter(x => x && typeof x.id === "number")
+        .sort((a,b) => a.id - b.id);
+
+      return cleaned;
+    }
+
+    function boot(){
+      const status = $("#loadStatus");
+
+      try{
+        NAMES = readEmbeddedNames();
+      }catch(e){
+        $("#progressText").textContent = "Erreur de chargement";
+        status.innerHTML = `<div class="danger">JSON interne invalide dans le bloc namesData</div>`;
+        return;
+      }
+
+      if(!NAMES.length){
+        $("#progressText").textContent = "Aucune donnée";
+        status.innerHTML = `<div class="danger">La liste est vide</div>`;
+        return;
+      }
+
+      STATE = loadState();
+      if(!STATE) STATE = freshState(NAMES);
+
+      for(const n of NAMES){
+        if(!STATE.items[n.id]){
+          STATE.items[n.id] = { checked:false, notes:"", srs:{level:0,next:0}, lastSeen:0 };
+        }
+      }
+
+      saveState(STATE);
+
+      fillTags(NAMES);
+
+      setView("review");
+      showCardById(STATE.cursorId || 1);
+
+      renderListGrid(filteredNames(), STATE, "#listGrid");
+      renderListGrid(filteredExplore(), STATE, "#exploreGrid");
+      updateProgress(NAMES, STATE);
+
+      $$(".tab").forEach(t => {
+        t.addEventListener("click", () => {
+          setView(t.dataset.view);
+          if(t.dataset.view === "list") renderListGrid(filteredNames(), STATE, "#listGrid");
+          if(t.dataset.view === "explore") renderListGrid(filteredExplore(), STATE, "#exploreGrid");
+        });
+      });
+
+      $("#prevBtn").addEventListener("click", () => moveCursor(-1));
+      $("#nextBtn").addEventListener("click", () => moveCursor(1));
+
+      $("#hardBtn").addEventListener("click", () => gradeCurrent("hard"));
+      $("#againBtn").addEventListener("click", () => gradeCurrent("again"));
+      $("#goodBtn").addEventListener("click", () => gradeCurrent("good"));
+      $("#masterBtn").addEventListener("click", () => gradeCurrent("master"));
+
+      document.addEventListener("keydown", (e) => {
+        if(e.key === "ArrowLeft") moveCursor(-1);
+        if(e.key === "ArrowRight") moveCursor(1);
+      });
+
+      $("#searchInput").addEventListener("input", () => {
+        renderListGrid(filteredNames(), STATE, "#listGrid");
+        renderListGrid(filteredExplore(), STATE, "#exploreGrid");
+      });
+
+      $("#tagSelect").addEventListener("change", () => {
+        renderListGrid(filteredExplore(), STATE, "#exploreGrid");
+      });
+      $("#clearTagBtn").addEventListener("click", () => {
+        $("#tagSelect").value = "";
+        renderListGrid(filteredExplore(), STATE, "#exploreGrid");
+      });
+
+      $("#startDailyBtn").addEventListener("click", () => {
+        const size = clamp(Number($("#dailySize").value || 12), 5, 30);
+        const session = buildDailySession(size);
+        renderDaily(session);
+      });
+
+      $("#showTranslit").checked = !!STATE.prefs.showTranslit;
+      $("#showPhonetic").checked = !!STATE.prefs.showPhonetic;
+      $("#showLong").checked = !!STATE.prefs.showLong;
+
+      $("#showTranslit").addEventListener("change", (e) => {
+        STATE.prefs.showTranslit = !!e.target.checked;
+        saveState(STATE);
+        showCardById(STATE.cursorId);
+      });
+      $("#showPhonetic").addEventListener("change", (e) => {
+        STATE.prefs.showPhonetic = !!e.target.checked;
+        saveState(STATE);
+        showCardById(STATE.cursorId);
+      });
+      $("#showLong").addEventListener("change", (e) => {
+        STATE.prefs.showLong = !!e.target.checked;
+        saveState(STATE);
+        showCardById(STATE.cursorId);
+      });
+
+      $("#exportBtn").addEventListener("click", () => {
+        const payload = { exportedAt: new Date().toISOString(), state: STATE };
+        const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = "progression-99-noms.json";
+        a.click();
+        URL.revokeObjectURL(a.href);
+      });
+
+      $("#resetBtn").addEventListener("click", () => {
+        localStorage.removeItem(STORE_KEY);
+        location.reload();
+      });
+
+      status.innerHTML = `<div class="ok">OK</div>`;
+    }
+
+    boot();
+  </script>
 </body>
 </html>
