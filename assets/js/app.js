@@ -1,7 +1,7 @@
 const $ = (sel, root=document) => root.querySelector(sel);
 const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
 
-const DATA_URL = "data/names.json";
+const DATA_URL = "assets/data/names.json";
 const STORE_KEY = "names99_state_v1";
 
 const defaultPrefs = {
